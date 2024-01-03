@@ -106,6 +106,17 @@ jobs:
       - name: Dev shell
         run: nix develop --impure
 
+  artifacts:
+    name: Artifacts
+    uses: ./.github/workflows/artifacts.yaml
+    with:
+      publish: ${{ github.event_name == 'push' }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      security-events: write
+
   dependency-review:
     name: Dependency review
     runs-on: ubuntu-latest
