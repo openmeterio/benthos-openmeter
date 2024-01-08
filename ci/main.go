@@ -13,6 +13,9 @@ const (
 	golangciLintVersion = "v1.54.2"
 
 	alpineBaseImage = "alpine:3.19.0@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48"
+
+	helmDocsVersion = "v1.11.3"
+	helmVersion     = "3.13.2"
 )
 
 const imageRepo = "ghcr.io/openmeterio/benthos-openmeter"
@@ -112,6 +115,13 @@ func (m *Ci) Ci(ctx context.Context) error {
 		return nil
 	})
 
+	// TODO: run trivy scan on helm chart
+	group.Go(func() error {
+		_, err := m.Build().HelmChart(Opt("0.0.0")).Sync(ctx)
+
+		return err
+	})
+
 	return group.Wait()
 }
 
@@ -124,12 +134,12 @@ func (m *Ci) Test() *Container {
 }
 
 func (m *Ci) Lint() *Container {
-	return dag.GolangciLint().
-		Run(GolangciLintRunOpts{
-			Version:   golangciLintVersion,
-			GoVersion: goVersion,
-			Source:    m.Source,
-			Verbose:   true,
+	return dag.GolangciLint(GolangciLintOpts{
+		Version:   golangciLintVersion,
+		GoVersion: goVersion,
+	}).
+		Run(m.Source, GolangciLintRunOpts{
+			Verbose: true,
 		})
 }
 
@@ -142,8 +152,41 @@ func (m *Ci) Snapshot(ctx context.Context) error {
 
 // Build and publish all release artifacts.
 func (m *Ci) Release(ctx context.Context, version string) error {
-	// TODO: refuse to publish release artifacts in a dirty git dir or when there is no tag pointing to the current ref
-	return m.pushImages(ctx, version, []string{version})
+	var group errgroup.Group
+
+	group.Go(func() error {
+		// Disable pushing images for now
+		return nil
+
+		// TODO: refuse to publish release artifacts in a dirty git dir or when there is no tag pointing to the current ref
+		return m.pushImages(ctx, version, []string{version})
+	})
+
+	group.Go(func() error {
+		username, password := m.RegistryUser, m.RegistryPassword
+
+		if username == "" {
+			return errors.New("registry user is required to push helm charts to ghcr.io")
+		}
+
+		if password == nil {
+			return errors.New("registry password is required to push helm charts to ghcr.io")
+		}
+
+		chart := m.Build().HelmChart(Opt(version))
+
+		_, err := dag.Helm(HelmOpts{Version: helmVersion}).
+			Login("ghcr.io", username, password).
+			Push(chart, "oci://ghcr.io/openmeterio/helm-charts").
+			Sync(ctx)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return group.Wait()
 }
 
 func (m *Ci) pushImages(ctx context.Context, version string, tags []string) error {
