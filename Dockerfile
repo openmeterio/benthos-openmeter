@@ -25,7 +25,10 @@ RUN apk add --update --no-cache ca-certificates tzdata bash
 
 SHELL ["/bin/bash", "-c"]
 
+# This is so we can reuse examples in development
+WORKDIR /etc/openmeter
+
 COPY --from=builder /usr/local/bin/benthos /usr/local/bin/
-COPY ./etc/cloudevents.spec.json /etc/openmeter/
+COPY ./cloudevents.spec.json /etc/openmeter/
 
 CMD benthos
