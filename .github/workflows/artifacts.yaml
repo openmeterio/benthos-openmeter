@@ -64,11 +64,11 @@ jobs:
           flavor: |
             latest = false
           tags: |
-            type=ref,event=branch,suffix=-${{ matrix.target }}
-            type=ref,event=pr,prefix=pr-,suffix=-${{ matrix.target }}
-            type=semver,pattern={{raw}},suffix=-${{ matrix.target }}
-            type=raw,value=latest,suffix=-${{ matrix.target }},enable={{is_default_branch}}
-            type=ref,event=branch,suffix=-${{ matrix.target }}-{{sha}}-{{date 'X'}},enable={{is_default_branch}}
+            type=ref,event=branch
+            type=ref,event=pr,prefix=pr-
+            type=semver,pattern={{raw}}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=branch,suffix=-{{sha}}-{{date 'X'}},enable={{is_default_branch}}
 
       # Multiple exporters are not supported yet
       # See https://github.com/moby/buildkit/pull/2760
