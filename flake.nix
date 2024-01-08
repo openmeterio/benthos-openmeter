@@ -53,6 +53,8 @@
               dagger
 
               benthos
+
+              helm-docs
             ];
 
             env = {
