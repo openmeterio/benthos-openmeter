@@ -1,0 +1,15 @@
+{
+  "name": "ci",
+  "root": "..",
+  "sdk": "go",
+  "exclude": [
+    ".devenv",
+    ".direnv",
+    "api/client/node/node_modules"
+  ],
+  "dependencies": [
+    "github.com/sagikazarmark/daggerverse/go@7eca84be945d4f3932e7f5c2c1ceb6d04e703830",
+    "github.com/sagikazarmark/daggerverse/golangci-lint@d5da86877cae930fa6a6e2e6377cea565e5e0c62",
+    "github.com/shykes/daggerverse/supergit@4113b803fcf4ba83b39cd464856af94656197cbf"
+  ]
+}
