@@ -38,7 +38,7 @@ Deploy Benthos to your cluster:
 helm install --wait --namespace benthos --create-namespace --set useExample=kubernetes-pod-exec-time --set openmeter.url=<OPENMETER URL> --set openmeter.token=<OPENMETER_TOKEN> benthos-openmeter oci://ghcr.io/openmeterio/helm-charts/benthos-openmeter
 ```
 
-> [!TIP]
+> [!NOTE]
 > If you use OpenMeter Cloud, you can omit the `openmeter.url` parameter.
 
 
