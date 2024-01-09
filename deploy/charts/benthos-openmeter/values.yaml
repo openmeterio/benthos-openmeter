@@ -12,6 +12,25 @@ image:
   # -- Image tag override for the default value (chart appVersion).
   tag: ""
 
+openmeter:
+  # -- OpenMeter API URL
+  url: https://openmeter.cloud
+
+  # -- OpenMeter token
+  token: ""
+
+# -- Benthos configuration
+# Takes precedence over `useExistingConfigFile` and `useExample`.
+config: {}
+
+# -- Use an existing config file mounted via `volumes` and `volumeMounts`.
+# Takes precedence over `useExample`.
+useExistingConfigFile: ""
+
+# -- Use one of the predefined examples.
+# Note: Read the documentation for the specific example to learn about configuration via env vars.
+useExample: ""
+
 # -- Reference to one or more secrets to be used when [pulling images](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret) (from private registries).
 imagePullSecrets: []
 
@@ -31,6 +50,11 @@ serviceAccount:
   # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+rbac:
+  # -- Specifies whether RBAC resources should be created.
+  # If disabled, the operator is responsible for creating the necessary resources based on the templates.
+  create: true
 
 # -- Annotations to be added to pods.
 podAnnotations: {}
@@ -81,6 +105,14 @@ volumeMounts: []
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
+
+# -- Additional environment variables mounted from [secrets](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables) or [config maps](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables).
+# See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
+envFrom: []
+
+# -- Additional environment variables passed directly to containers.
+# See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
+env: {}
 
 # -- [Node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) configuration.
 nodeSelector: {}
