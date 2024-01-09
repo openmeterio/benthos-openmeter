@@ -26,13 +26,13 @@ RUN apk add --update --no-cache ca-certificates tzdata bash
 SHELL ["/bin/bash", "-c"]
 
 # This is so we can reuse examples in development
-WORKDIR /etc/openmeter
+WORKDIR /etc/benthos
 
-COPY cloudevents.spec.json /etc/openmeter/
+COPY cloudevents.spec.json /etc/benthos/
 
-COPY examples/http-server/input.yaml /etc/openmeter/examples/http-server/input.yaml
-COPY examples/http-server/output.yaml /etc/openmeter/examples/http-server/output.yaml
-COPY examples/kubernetes-pod-exec-time/config.yaml /etc/openmeter/examples/kubernetes-pod-exec-time/config.yaml
+COPY examples/http-server/input.yaml /etc/benthos/examples/http-server/input.yaml
+COPY examples/http-server/output.yaml /etc/benthos/examples/http-server/output.yaml
+COPY examples/kubernetes-pod-exec-time/config.yaml /etc/benthos/examples/kubernetes-pod-exec-time/config.yaml
 
 COPY --from=builder /usr/local/bin/benthos /usr/local/bin/
 

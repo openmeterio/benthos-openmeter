@@ -24,7 +24,6 @@ kind create cluster
 > [!TIP]
 > Alternatively, set up your `kubectl` context to point to your existing cluster.
 
-
 ## Deploy Benthos
 
 Deploy Benthos to your cluster:

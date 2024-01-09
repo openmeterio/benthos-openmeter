@@ -58,11 +58,11 @@ func (m *Build) containerImage(platform Platform, version Optional[string]) *Con
 			return c
 		}).
 		WithExec([]string{"apk", "add", "--update", "--no-cache", "ca-certificates", "tzdata", "bash"}).
-		WithWorkdir("/etc/openmeter").
-		WithFile("/etc/openmeter/cloudevents.spec.json", m.Source.File("cloudevents.spec.json")).
-		WithFile("/etc/openmeter/examples/http-server/input.yaml", m.Source.File("examples/http-server/input.yaml")).
-		WithFile("/etc/openmeter/examples/http-server/output.yaml", m.Source.File("examples/http-server/output.yaml")).
-		WithFile("/etc/openmeter/examples/kubernetes-pod-exec-time/config.yaml", m.Source.File("examples/kubernetes-pod-exec-time/config.yaml")).
+		WithWorkdir("/etc/benthos").
+		WithFile("/etc/benthos/cloudevents.spec.json", m.Source.File("cloudevents.spec.json")).
+		WithFile("/etc/benthos/examples/http-server/input.yaml", m.Source.File("examples/http-server/input.yaml")).
+		WithFile("/etc/benthos/examples/http-server/output.yaml", m.Source.File("examples/http-server/output.yaml")).
+		WithFile("/etc/benthos/examples/kubernetes-pod-exec-time/config.yaml", m.Source.File("examples/kubernetes-pod-exec-time/config.yaml")).
 		WithFile("/usr/local/bin/benthos", m.binary(platform, version))
 }
 
