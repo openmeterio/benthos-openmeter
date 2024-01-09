@@ -35,11 +35,8 @@ type Ci struct {
 }
 
 func New(
-	// Checkout the repository and use that as the source directory instead of the local one.
-	checkout Optional[bool],
-
-	// Ref to check out.
-	ref Optional[string],
+	// Checkout the repository (at the designated ref) and use it as the source directory instead of the local one.
+	checkout Optional[string],
 
 	// Container registry user (required for pushing images).
 	registryUser Optional[string],
@@ -49,15 +46,10 @@ func New(
 ) (*Ci, error) {
 	var source *Directory
 
-	if checkout.GetOr(false) {
-		r, ok := ref.Get()
-		if !ok {
-			return nil, errors.New("ref is required when --checkout option is set")
-		}
-
+	if refName, ok := checkout.Get(); ok {
 		source = dag.Git("https://github.com/openmeterio/benthos-openmeter.git", GitOpts{
 			KeepGitDir: true,
-		}).Branch(r).Tree()
+		}).Branch(refName).Tree()
 	} else {
 		source = projectDir()
 	}
