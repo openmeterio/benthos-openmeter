@@ -38,7 +38,7 @@ OPENMETER_TOKEN=YOUR_TOKEN
 Run Benthos:
 
 ```shell
-go run . -c test.yaml
+go run .
 ```
 
 ## License
