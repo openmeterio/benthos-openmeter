@@ -2,6 +2,14 @@
 
 This example demonstrates metering execution time of Pods running in Kubernetes.
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Preparations](#preparations)
+- [Deploy the example](#deploy-the-example)
+- [Cleanup](#cleanup)
+- [Advanced configuration](#advanced-configuration)
+
 ## Prerequisites
 
 Any local (or remote if that's what's available for you) Kubernetes cluster will do.
@@ -61,3 +69,11 @@ Delete the cluster:
 ```shell
 kind delete cluster
 ```
+
+## Advanced configuration
+
+This example uses a custom Benthos plugin called `kubernetes_resources` (included in this project) to periodically scrape the Kubernetes API for active pods.
+
+The entire pipeline can be found in [config.yaml](config.yaml).
+
+Check out the configuration file and the [Benthos documentation](https://www.benthos.dev/docs/about) for more details.
