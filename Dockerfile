@@ -28,7 +28,12 @@ SHELL ["/bin/bash", "-c"]
 # This is so we can reuse examples in development
 WORKDIR /etc/openmeter
 
+COPY cloudevents.spec.json /etc/openmeter/
+
+COPY examples/http-server/input.yaml /etc/openmeter/examples/http-server/input.yaml
+COPY examples/http-server/output.yaml /etc/openmeter/examples/http-server/output.yaml
+COPY examples/kubernetes-pod-exec-time/config.yaml /etc/openmeter/examples/kubernetes-pod-exec-time/config.yaml
+
 COPY --from=builder /usr/local/bin/benthos /usr/local/bin/
-COPY ./cloudevents.spec.json /etc/openmeter/
 
 CMD benthos

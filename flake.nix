@@ -54,11 +54,20 @@
 
               benthos
 
+              kind
+              kubectl
               helm-docs
             ];
 
             env = {
               DAGGER_MODULE = "ci";
+
+              KUBECONFIG = "${config.devenv.shells.default.env.DEVENV_STATE}/kube/config";
+              KIND_CLUSTER_NAME = "benthos-openmeter";
+
+              HELM_CACHE_HOME = "${config.devenv.shells.default.env.DEVENV_STATE}/helm/cache";
+              HELM_CONFIG_HOME = "${config.devenv.shells.default.env.DEVENV_STATE}/helm/config";
+              HELM_DATA_HOME = "${config.devenv.shells.default.env.DEVENV_STATE}/helm/data";
             };
 
             # https://github.com/cachix/devenv/issues/528#issuecomment-1556108767
