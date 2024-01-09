@@ -18,7 +18,7 @@ jobs:
         uses: dagger/dagger-for-github@e86a41a730841597c2b728134e83596e4e9c7804 # v5.1.0
         with:
           verb: call
-          module: github.com/openmeterio/benthos-openmeter/ci@${{ github.event.pull_request.head.sha }}
+          module: github.com/openmeterio/benthos-openmeter/ci@${{ github.ref }}
           args: --checkout --ref ${{ github.ref }} ci
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
           version: "0.9.5"
