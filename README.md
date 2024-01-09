@@ -6,11 +6,23 @@
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/openmeterio/benthos-openmeter/badge?style=flat-square)](https://api.securityscorecards.dev/projects/github.com/openmeterio/benthos-openmeter)
 [![built with nix](https://builtwithnix.org/badge.svg)](https://builtwithnix.org)
 
-**A set of plugins and tools for [Benthos](https://www.benthos.dev/) to ingest events into [OpenMeter](https://openmeter.io/).**
+**A set of plugins and a custom distribution for [Benthos](https://www.benthos.dev/) to ingest events into [OpenMeter](https://openmeter.io/).**
 
-## Usage
+## Introduction
 
-TODO
+[Benthos](https://www.benthos.dev/) is a stream processor that allows you to consume, buffer, transform, combine, and produce streams of data.
+As such, it is a perfect fit for ingesting events into [OpenMeter](https://openmeter.io/).
+
+This project serves several purposes:
+
+- It provides a set of plugins for Benthos that allow you to ingest events into OpenMeter.
+- It is also a custom Benthos distribution with the OpenMeter plugins pre-installed.
+
+You can use the plugins in your own Benthos distribution or use the custom distribution as a drop-in replacement for Benthos provided by this project.
+
+## Examples
+
+See the [examples](examples/) directory for examples of how to use the plugins.
 
 ## Development
 

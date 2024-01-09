@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  forwarder:
+    image: ghcr.io/openmeterio/benthos-openmeter
+    command: benthos streams --no-api /etc/benthos/input.yaml /etc/benthos/output.yaml
+    env_file:
+      - .env
+    ports:
+      - 127.0.0.1:4196:4196
+    volumes:
+      - ./input.yaml:/etc/benthos/input.yaml:ro
+      - ./output.yaml:/etc/benthos/output.yaml:ro
+
+  seeder:
+    profiles:
+      - seed
+    image: ghcr.io/openmeterio/benthos-openmeter
+    command: benthos -c /etc/benthos/config.yaml
+    env_file:
+      - .env
+    environment:
+      OPENMETER_URL: http://forwarder:4196
+    volumes:
+      - ./seed/config.yaml:/etc/benthos/config.yaml:ro
