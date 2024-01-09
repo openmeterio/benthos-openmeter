@@ -21,7 +21,6 @@ func kubernetesResourcesInputConfig() *service.ConfigSpec {
 		Beta().
 		Categories("Services").
 		Summary("List objects in Kubernetes.").
-		Description("").
 		Fields(
 			service.NewObjectField(
 				"resource",

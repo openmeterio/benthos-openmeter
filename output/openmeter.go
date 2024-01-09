@@ -21,7 +21,7 @@ func openmeterOutputConfig() *service.ConfigSpec {
 		Fields(
 			service.NewURLField("url").
 				Description("OpenMeter API endpoint"),
-			service.NewInterpolatedStringField("token").
+			service.NewStringField("token").
 				Description("OpenMeter API token").
 				Secret().
 				Optional(),
