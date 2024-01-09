@@ -5,6 +5,7 @@ The following examples demonstrate how to ingest events from various sources int
 The examples use the custom Benthos distribution in this repository.
 
 - [HTTP server](http-server/) (forwarding events to OpenMeter)
+- [Kubernetes Pod execution time](kubernetes-pod-exec-time/)
 
 ## Prerequisites
 
