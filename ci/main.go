@@ -39,7 +39,7 @@ func New(
 	checkout Optional[bool],
 
 	// Commit hash to check out.
-	// commit Optional[string],
+	commit Optional[string],
 
 	// Ref to check out.
 	ref Optional[string],
@@ -53,26 +53,25 @@ func New(
 	var source *Directory
 
 	if checkout.GetOr(false) {
-		// c, ok := commit.Get()
-		// if !ok {
-		// 	return nil, errors.New("commit is required when --checkout option is set")
-		// }
-
-		// source = dag.Git("https://github.com/openmeterio/benthos-openmeter.git", GitOpts{
-		// 	KeepGitDir: true,
-		// }).Commit(c).Tree()
-
-		r, ok := ref.Get()
+		c, ok := commit.Get()
 		if !ok {
-			return nil, errors.New("ref is required when --checkout option is set")
+			return nil, errors.New("commit is required when --checkout option is set")
 		}
 
-		source = dag.Supergit().
-			Repository().
-			WithRemote("origin", "https://github.com/openmeterio/benthos-openmeter.git").
-			WithGitCommand([]string{"pull", "origin", r}).Worktree()
-		// Commit(c).Tree()
+		source = dag.Git("https://github.com/openmeterio/benthos-openmeter.git", GitOpts{
+			KeepGitDir: true,
+		}).Commit(c).Tree()
 
+		// r, ok := ref.Get()
+		// if !ok {
+		// 	return nil, errors.New("ref is required when --checkout option is set")
+		// }
+		//
+		// source = dag.Supergit().
+		// 	Repository().
+		// 	WithRemote("origin", "https://github.com/openmeterio/benthos-openmeter.git").
+		// 	WithGitCommand([]string{"pull", "origin", r}).Worktree()
+		// Commit(c).Tree()
 	} else {
 		source = projectDir()
 	}
