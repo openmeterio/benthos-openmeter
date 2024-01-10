@@ -25,7 +25,7 @@ RUN apk add --update --no-cache ca-certificates tzdata bash
 
 SHELL ["/bin/bash", "-c"]
 
-# This is so we can reuse examples in development
+# This is so we can reuse presets in development
 WORKDIR /etc/benthos
 
 COPY cloudevents.spec.json /etc/benthos/

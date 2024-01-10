@@ -20,16 +20,16 @@ openmeter:
   token: ""
 
 # -- Benthos configuration
-# Takes precedence over `useExistingConfigFile` and `usePreset`.
+# Takes precedence over `configFile` and `preset`.
 config: {}
 
 # -- Use an existing config file mounted via `volumes` and `volumeMounts`.
-# Takes precedence over `usePreset`.
-useExistingConfigFile: ""
+# Takes precedence over `preset`.
+configFile: ""
 
 # -- Use one of the predefined presets.
 # Note: Read the documentation for the specific preset (example) to learn about configuration via env vars.
-usePreset: ""
+preset: ""
 
 # -- Reference to one or more secrets to be used when [pulling images](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret) (from private registries).
 imagePullSecrets: []

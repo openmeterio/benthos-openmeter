@@ -80,17 +80,17 @@ Create args for the deployment
 {{- define "benthos-openmeter.args" -}}
 {{- if .Values.config -}}
 ["benthos", "-c", "/etc/benthos/config.yaml"]
-{{- else if .Values.useExistingConfigFile -}}
-["benthos", "-c", "{{ .Values.useExistingConfigFile }}"]
-{{- else if .Values.usePreset }}
-{{- if eq .Values.usePreset "http-server" -}}
+{{- else if .Values.configFile -}}
+["benthos", "-c", "{{ .Values.configFile }}"]
+{{- else if .Values.preset }}
+{{- if eq .Values.preset "http-server" -}}
 ["benthos", "streams", "--no-api", "/etc/benthos/examples/http-server/input.yaml", "/etc/benthos/examples/http-server/output.yaml"]
-{{- else if eq .Values.usePreset "kubernetes-pod-exec-time" -}}
+{{- else if eq .Values.preset "kubernetes-pod-exec-time" -}}
 ["benthos", "-c", "/etc/benthos/examples/kubernetes-pod-exec-time/config.yaml"]
 {{- else }}
-{{- fail (printf "Invalid example '%s" .Values.usePreset) }}
+{{- fail (printf "Invalid example '%s" .Values.preset) }}
 {{- end }}
 {{- else }}
-{{- fail "One of 'config', 'useExistingConfigFile' or 'usePreset' is required" }}
+{{- fail "One of 'config', 'configFile' or 'preset' is required" }}
 {{- end }}
 {{- end }}
