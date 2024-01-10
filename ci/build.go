@@ -1,7 +1,6 @@
 package main
 
 import (
-	"path/filepath"
 	"strings"
 	"time"
 )
@@ -91,7 +90,7 @@ func (m *Build) binary(platform Platform, version Optional[string]) *File {
 }
 
 func (m *Build) HelmChart(version Optional[string]) *File {
-	chart := m.helmChartDir()
+	chart := helmChartDir(m.Source)
 
 	var opts HelmPackageOpts
 
@@ -103,15 +102,13 @@ func (m *Build) HelmChart(version Optional[string]) *File {
 	return dag.Helm(HelmOpts{Version: helmVersion}).Package(chart, opts)
 }
 
-func (m *Build) helmChartDir() *Directory {
-	chart := dag.Host().Directory(filepath.Join(root(), "deploy/charts/benthos-openmeter"), HostDirectoryOpts{
-		Exclude: []string{"charts"}, // exclude dependencies
-	})
+func helmChartDir(source *Directory) *Directory {
+	chart := source.Directory("deploy/charts/benthos-openmeter")
 
 	readme := dag.HelmDocs(HelmDocsOpts{Version: helmDocsVersion}).Generate(chart, HelmDocsGenerateOpts{
 		Templates: []*File{
-			dag.Host().File(filepath.Join(root(), "deploy/charts/template.md")),
-			dag.Host().File(filepath.Join(root(), "deploy/charts/benthos-openmeter/README.tmpl.md")),
+			source.File("deploy/charts/template.md"),
+			source.File("deploy/charts/benthos-openmeter/README.tmpl.md"),
 		},
 		SortValuesOrder: "file",
 	})
