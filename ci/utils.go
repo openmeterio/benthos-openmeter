@@ -19,6 +19,7 @@ var excludes = []string{
 	".direnv",
 	".devenv",
 	"ci",
+	"deploy/charts/**/charts",
 }
 
 func exclude(paths ...string) []string {

@@ -72,9 +72,7 @@ func (m *Ci) Ci(ctx context.Context) error {
 	})
 
 	group.Go(func() error {
-		_, err := m.Lint().Sync(ctx)
-
-		return err
+		return m.Lint().All(ctx)
 	})
 
 	// TODO: run trivy scan on container(s?)
@@ -108,16 +106,6 @@ func (m *Ci) Test() *Container {
 	}).
 		WithSource(m.Source).
 		Exec([]string{"go", "test", "-v", "./..."})
-}
-
-func (m *Ci) Lint() *Container {
-	return dag.GolangciLint(GolangciLintOpts{
-		Version:   golangciLintVersion,
-		GoVersion: goVersion,
-	}).
-		Run(m.Source, GolangciLintRunOpts{
-			Verbose: true,
-		})
 }
 
 // Build and publish a snapshot of all artifacts from the current development version.

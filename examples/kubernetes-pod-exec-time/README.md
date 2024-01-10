@@ -43,7 +43,7 @@ kubectl apply -f seed/pod.yaml
 Deploy Benthos to your cluster:
 
 ```shell
-helm install --wait --namespace benthos --create-namespace --set useExample=kubernetes-pod-exec-time --set openmeter.url=<OPENMETER URL> --set openmeter.token=<OPENMETER_TOKEN> benthos-openmeter oci://ghcr.io/openmeterio/helm-charts/benthos-openmeter
+helm install --wait --namespace benthos --create-namespace --set preset=kubernetes-pod-exec-time --set openmeter.url=<OPENMETER URL> --set openmeter.token=<OPENMETER_TOKEN> benthos-openmeter oci://ghcr.io/openmeterio/helm-charts/benthos-openmeter
 ```
 
 > [!NOTE]
