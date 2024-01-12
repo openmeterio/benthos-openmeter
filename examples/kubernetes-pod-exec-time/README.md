@@ -45,7 +45,7 @@ Create a meter in OpenMeter with the following details:
 - Aggregation: `SUM`
 - Value property: `$.duration_seconds`
 - Group by (optional):
-  - Namespace: `$.pod_namespace`
+  - `namespace`: `$.pod_namespace`
 
 > [!TIP]
 > Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).

@@ -42,10 +42,10 @@ Create a meter in OpenMeter with the following details:
 - Aggregation: `SUM`
 - Value property: `$.duration_ms`
 - Group by (optional):
-  - Method: `$.method`
-  - Path: `$.path`
-  - Region: `$.region`
-  - Zone: `$.zone`
+  - `method`: `$.method`
+  - `path`: `$.path`
+  - `region`: `$.region`
+  - `zone`: `$.zone`
 
 > [!TIP]
 > Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).
