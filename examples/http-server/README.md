@@ -35,6 +35,20 @@ cp .env.dist .env
 > [!TIP]
 > Tweak other options in the `.env` file to change the behavior of the example.
 
+Create a meter in OpenMeter with the following details:
+
+- Event type: `api-calls`
+- Aggregation: `SUM`
+- Value property: `$.duration_ms`
+- Group by (optional):
+  - Method: `$.method`
+  - Path: `$.path`
+  - Region: `$.region`
+  - Zone: `$.zone`
+
+> [!TIP]
+> Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).
+
 ## Launch the example
 
 Launch the event forwarder:
