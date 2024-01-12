@@ -95,6 +95,10 @@ docker compose --profile seed up -d
 >
 > You can modify this behavior by editing the [seeder configuration file](seed/config.yaml).
 
+## Checking events
+
+Read more in the general examples [README](../../README.md#Checking-events-in-OpenMeter).
+
 ## Cleanup
 
 Stop containers:

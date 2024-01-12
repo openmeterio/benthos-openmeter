@@ -61,6 +61,10 @@ helm install --wait --namespace benthos --create-namespace --set preset=kubernet
 > [!NOTE]
 > If you use OpenMeter Cloud, you can omit the `openmeter.url` parameter.
 
+## Checking events
+
+Read more in the general examples [README](../../README.md#Checking-events-in-OpenMeter).
+
 ## Cleanup
 
 Uninstall Benthos from the cluster:
