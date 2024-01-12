@@ -38,3 +38,10 @@ meters:
       method: $.method
       path: $.path
 ```
+
+## Production use
+
+We are actively working on improving the documentation and the examples.
+In the meantime, feel free to contact us [in email](https://us10.list-manage.com/contact-form?u=c7d6a96403a0e5e19032ee885&form_id=fe04a7fc4851f8547cfee56763850e95) or [on Discord](https://discord.gg/nYH3ZQ3Xzq).
+
+We are more than happy to help you set up OpenMeter in your production environment.
