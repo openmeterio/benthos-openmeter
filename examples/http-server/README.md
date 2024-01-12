@@ -22,7 +22,7 @@ Check out this repository if you want to run the example locally:
 
 ```shell
 git clone https://github.com/openmeterio/benthos-openmeter.git
-cd benthos-openmeter/examples/http_server
+cd benthos-openmeter/examples/http-server
 ```
 
 Create a new `.env` file and add the details of your OpenMeter instance:
