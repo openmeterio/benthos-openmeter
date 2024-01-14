@@ -48,7 +48,7 @@ Create a meter in OpenMeter with the following details:
   - `namespace`: `$.pod_namespace`
 
 > [!TIP]
-> Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).
+> Read more about creating a meter in the general examples [README](../README.md#Create-a-meter).
 
 ## Deploy the example
 
@@ -63,7 +63,7 @@ helm install --wait --namespace benthos --create-namespace --set preset=kubernet
 
 ## Checking events
 
-Read more in the general examples [README](../../README.md#Checking-events-in-OpenMeter).
+Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).
 
 ## Cleanup
 

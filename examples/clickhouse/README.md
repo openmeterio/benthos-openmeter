@@ -39,7 +39,7 @@ Create the following meters in OpenMeter with the following details:
 | Message count            | `chat-message` | `COUNT`     | -                           | - `plan`: `$.plan`  |
 
 > [!TIP]
-> Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).
+> Read more about creating a meter in the general examples [README](../README.md#Create-a-meter).
 
 ## Launch the example
 
@@ -51,7 +51,7 @@ docker compose up -d
 
 ## Checking events
 
-Read more in the general examples [README](../../README.md#Checking-events-in-OpenMeter).
+Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).
 
 ## Cleanup
 

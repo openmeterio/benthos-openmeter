@@ -48,7 +48,7 @@ Create a meter in OpenMeter with the following details:
   - `zone`: `$.zone`
 
 > [!TIP]
-> Read more about creating a meter in the general examples [README](../../README.md#Create-a-meter).
+> Read more about creating a meter in the general examples [README](../README.md#Create-a-meter).
 
 ## Launch the example
 
@@ -97,7 +97,7 @@ docker compose --profile seed up -d
 
 ## Checking events
 
-Read more in the general examples [README](../../README.md#Checking-events-in-OpenMeter).
+Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).
 
 ## Cleanup
 
