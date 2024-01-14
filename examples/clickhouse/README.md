@@ -9,6 +9,15 @@ Benthos will read messages from a message log table and send the calculated usag
 
 The example also demonstrates that certain business logic can also be implemented during the transformation (for example: users on the enterprise plan do not get charged for message length).
 
+## Table of Contents <!-- omit from toc -->
+
+- [Prerequisites](#prerequisites)
+- [Launch the example](#launch-the-example)
+- [Checking events](#checking-events)
+- [Cleanup](#cleanup)
+- [Advanced configuration](#advanced-configuration)
+- [Production use](#production-use)
+
 ## Prerequisites
 
 This example uses [Docker](https://docker.com) and [Docker Compose](https://docs.docker.com/compose/), but you are free to run the components in any other way.
@@ -33,7 +42,7 @@ cp .env.dist .env
 Create the following meters in OpenMeter with the following details:
 
 | Description              | Event type     | Aggregation | Value property              | Group by (optional) |
-|--------------------------|----------------|-------------|-----------------------------|---------------------|
+| ------------------------ | -------------- | ----------- | --------------------------- | ------------------- |
 | All message lenghts      | `chat-message` | `SUM`       | `$.message_length`          | - `plan`: `$.plan`  |
 | Billable message lengths | `chat-message` | `SUM`       | `$.message_length_billable` | - `plan`: `$.plan`  |
 | Message count            | `chat-message` | `COUNT`     | -                           | - `plan`: `$.plan`  |

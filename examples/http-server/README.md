@@ -7,10 +7,11 @@ The nice thing about this solution is that you can use it as a drop-in replaceme
 This means you can use our existing SDKs; the only thing you need to change is the API endpoint.
 That is, of course, optional: you can use any client library or payload format you prefer and handle the mapping to the [CloudEvents](https://cloudevents.io/) format in a Benthos [`mapping` processor](https://www.benthos.dev/docs/components/processors/mapping/).
 
-## Table of Contents
+## Table of Contents <!-- omit from toc -->
 
 - [Prerequisites](#prerequisites)
 - [Launch the example](#launch-the-example)
+- [Checking events](#checking-events)
 - [Cleanup](#cleanup)
 - [Advanced configuration](#advanced-configuration)
 - [Production use](#production-use)
@@ -67,7 +68,7 @@ docker compose logs -f forwarder
 Open another terminal and send a test event:
 
 ```shell
-curl -vvv http://localhost:4196/api/v1/events -H "Content-Type: application/cloudevents+json" -d @seed/event.json
+curl -vvv http://127.0.0.1:4196/api/v1/events -H "Content-Type: application/cloudevents+json" -d @seed/event.json
 ```
 
 _Inspect the logs in the other terminal._
@@ -75,7 +76,7 @@ _Inspect the logs in the other terminal._
 Send a batch of events:
 
 ```shell
-curl -vvv http://localhost:4196/api/v1/events -H "Content-Type: application/cloudevents-batch+json" -d @seed/batch.json
+curl -vvv http://127.0.0.1:4196/api/v1/events -H "Content-Type: application/cloudevents-batch+json" -d @seed/batch.json
 ```
 
 _Inspect the logs in the other terminal._

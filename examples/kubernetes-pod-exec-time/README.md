@@ -2,11 +2,12 @@
 
 This example demonstrates metering execution time of Pods running in Kubernetes.
 
-## Table of Contents
+## Table of Contents <!-- omit from toc -->
 
 - [Prerequisites](#prerequisites)
 - [Preparations](#preparations)
 - [Deploy the example](#deploy-the-example)
+- [Checking events](#checking-events)
 - [Cleanup](#cleanup)
 - [Advanced configuration](#advanced-configuration)
 - [Production use](#production-use)
