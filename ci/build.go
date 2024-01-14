@@ -26,7 +26,7 @@ func (m *Build) containerImages(version string) []*Container {
 	variants := make([]*Container, 0, len(platforms))
 
 	for _, platform := range platforms {
-		variants = append(variants, m.containerImage(platform, Opt(version)))
+		variants = append(variants, m.containerImage(platform, version))
 	}
 
 	return variants
@@ -34,13 +34,14 @@ func (m *Build) containerImages(version string) []*Container {
 
 // Build a container image.
 func (m *Build) ContainerImage(
-	// Platform in the format of OS/ARCH[/VARIANT] (eg. "darwin/arm64/v7")
-	platform Optional[Platform],
+	// Target platform in "[os]/[platform]/[version]" format (e.g., "darwin/arm64/v7", "windows/amd64", "linux/arm64").
+	// +optional
+	platform Platform,
 ) *Container {
-	return m.containerImage(platform.GetOr(""), OptEmpty[string]())
+	return m.containerImage(platform, "")
 }
 
-func (m *Build) containerImage(platform Platform, version Optional[string]) *Container {
+func (m *Build) containerImage(platform Platform, version string) *Container {
 	return dag.Container(ContainerOpts{Platform: platform}).
 		From(alpineBaseImage).
 		WithLabel("org.opencontainers.image.title", "benthos-openmeter").
@@ -50,8 +51,8 @@ func (m *Build) containerImage(platform Platform, version Optional[string]) *Con
 		WithLabel("org.opencontainers.image.source", "https://github.com/openmeterio/benthos-openmeter").
 		WithLabel("org.opencontainers.image.licenses", "Apache-2.0").
 		With(func(c *Container) *Container {
-			if v, ok := version.Get(); ok {
-				c = c.WithLabel("org.opencontainers.image.version", v)
+			if version != "" {
+				c = c.WithLabel("org.opencontainers.image.version", version)
 			}
 
 			return c
@@ -67,13 +68,18 @@ func (m *Build) containerImage(platform Platform, version Optional[string]) *Con
 
 // Build a binary.
 func (m *Build) Binary(
-	// Platform in the format of OS/ARCH[/VARIANT] (eg. "darwin/arm64/v7")
-	platform Optional[Platform],
+	// Target platform in "[os]/[platform]/[version]" format (e.g., "darwin/arm64/v7", "windows/amd64", "linux/arm64").
+	// +optional
+	platform Platform,
 ) *File {
-	return m.binary(platform.GetOr(""), OptEmpty[string]())
+	return m.binary(platform, "")
 }
 
-func (m *Build) binary(platform Platform, version Optional[string]) *File {
+func (m *Build) binary(platform Platform, version string) *File {
+	if version == "" {
+		version = "unknown"
+	}
+
 	return dag.Go(GoOpts{
 		Version: goVersion,
 	}).
@@ -84,19 +90,23 @@ func (m *Build) binary(platform Platform, version Optional[string]) *File {
 			Trimpath: true,
 			RawArgs: []string{
 				"-ldflags",
-				"-s -w -X main.version=" + version.GetOr("unknown"),
+				"-s -w -X main.version=" + version,
 			},
 		})
 }
 
-func (m *Build) HelmChart(version Optional[string]) *File {
+func (m *Build) HelmChart(
+	// Release version.
+	// +optional
+	version string,
+) *File {
 	chart := helmChartDir(m.Source)
 
 	var opts HelmPackageOpts
 
-	if v, ok := version.Get(); ok {
-		opts.Version = strings.TrimPrefix(v, "v")
-		opts.AppVersion = v
+	if version != "" {
+		opts.Version = strings.TrimPrefix(version, "v")
+		opts.AppVersion = version
 	}
 
 	return dag.Helm(HelmOpts{Version: helmVersion}).Package(chart, opts)
