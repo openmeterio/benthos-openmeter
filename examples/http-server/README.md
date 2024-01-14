@@ -13,6 +13,7 @@ That is, of course, optional: you can use any client library or payload format y
 - [Launch the example](#launch-the-example)
 - [Cleanup](#cleanup)
 - [Advanced configuration](#advanced-configuration)
+- [Production use](#production-use)
 
 ## Prerequisites
 
@@ -22,7 +23,7 @@ Check out this repository if you want to run the example locally:
 
 ```shell
 git clone https://github.com/openmeterio/benthos-openmeter.git
-cd benthos-openmeter/examples/http_server
+cd benthos-openmeter/examples/http-server
 ```
 
 Create a new `.env` file and add the details of your OpenMeter instance:
@@ -34,6 +35,20 @@ cp .env.dist .env
 
 > [!TIP]
 > Tweak other options in the `.env` file to change the behavior of the example.
+
+Create a meter in OpenMeter with the following details:
+
+- Event type: `api-calls`
+- Aggregation: `SUM`
+- Value property: `$.duration_ms`
+- Group by (optional):
+  - `method`: `$.method`
+  - `path`: `$.path`
+  - `region`: `$.region`
+  - `zone`: `$.zone`
+
+> [!TIP]
+> Read more about creating a meter in the general examples [README](../README.md#Create-a-meter).
 
 ## Launch the example
 
@@ -80,6 +95,10 @@ docker compose --profile seed up -d
 >
 > You can modify this behavior by editing the [seeder configuration file](seed/config.yaml).
 
+## Checking events
+
+Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).
+
 ## Cleanup
 
 Stop containers:
@@ -107,3 +126,10 @@ benthos streams input.yaml output.yaml
 ```
 
 Check out the configuration files and the [Benthos documentation](https://www.benthos.dev/docs/about) for more details.
+
+## Production use
+
+We are actively working on improving the documentation and the examples.
+In the meantime, feel free to contact us [in email](https://us10.list-manage.com/contact-form?u=c7d6a96403a0e5e19032ee885&form_id=fe04a7fc4851f8547cfee56763850e95) or [on Discord](https://discord.gg/nYH3ZQ3Xzq).
+
+We are more than happy to help you set up OpenMeter in your production environment.

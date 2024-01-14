@@ -9,6 +9,7 @@ This example demonstrates metering execution time of Pods running in Kubernetes.
 - [Deploy the example](#deploy-the-example)
 - [Cleanup](#cleanup)
 - [Advanced configuration](#advanced-configuration)
+- [Production use](#production-use)
 
 ## Prerequisites
 
@@ -38,6 +39,18 @@ Deploy the test Pods to the cluster:
 kubectl apply -f seed/pod.yaml
 ```
 
+Create a meter in OpenMeter with the following details:
+
+- Event type: `kube-pod-exec-time`
+- Aggregation: `SUM`
+- Value property: `$.duration_seconds`
+- Group by (optional):
+  - `pod_namespace`: `$.pod_namespace`
+  - `pod_name`: `$.pod_name`
+
+> [!TIP]
+> Read more about creating a meter in the general examples [README](../README.md#Create-a-meter).
+
 ## Deploy the example
 
 Deploy Benthos to your cluster:
@@ -49,6 +62,9 @@ helm install --wait --namespace benthos --create-namespace --set preset=kubernet
 > [!NOTE]
 > If you use OpenMeter Cloud, you can omit the `openmeter.url` parameter.
 
+## Checking events
+
+Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).
 
 ## Cleanup
 
@@ -77,3 +93,10 @@ This example uses a custom Benthos plugin called `kubernetes_resources` (include
 The entire pipeline can be found in [config.yaml](config.yaml).
 
 Check out the configuration file and the [Benthos documentation](https://www.benthos.dev/docs/about) for more details.
+
+## Production use
+
+We are actively working on improving the documentation and the examples.
+In the meantime, feel free to contact us [in email](https://us10.list-manage.com/contact-form?u=c7d6a96403a0e5e19032ee885&form_id=fe04a7fc4851f8547cfee56763850e95) or [on Discord](https://discord.gg/nYH3ZQ3Xzq).
+
+We are more than happy to help you set up OpenMeter in your production environment.
