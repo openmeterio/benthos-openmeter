@@ -92,7 +92,7 @@ func (m *Ci) Ci(ctx context.Context) error {
 
 	// TODO: run trivy scan on helm chart
 	group.Go(func() error {
-		_, err := m.Build().HelmChart(Opt("0.0.0")).Sync(ctx)
+		_, err := m.Build().HelmChart("0.0.0").Sync(ctx)
 
 		return err
 	})
@@ -116,7 +116,12 @@ func (m *Ci) Snapshot(ctx context.Context) error {
 }
 
 // Build and publish all release artifacts.
-func (m *Ci) Release(ctx context.Context, version string) error {
+func (m *Ci) Release(
+	ctx context.Context,
+
+	// Release version.
+	version string,
+) error {
 	var group errgroup.Group
 
 	group.Go(func() error {
@@ -138,7 +143,7 @@ func (m *Ci) Release(ctx context.Context, version string) error {
 			return errors.New("registry password is required to push helm charts to ghcr.io")
 		}
 
-		chart := m.Build().HelmChart(Opt(version))
+		chart := m.Build().HelmChart(version)
 
 		_, err := dag.Helm(HelmOpts{Version: helmVersion}).
 			Login("ghcr.io", username, password).
