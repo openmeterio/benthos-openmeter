@@ -39,7 +39,7 @@ output:
                 this.sender,
                 this.recipient,
                 this.message,
-                this.time.ts_format("2006-01-02 15:04:05"),
+                this.time.ts_format(format: "2006-01-02 15:04:05", tz: "UTC"),
               ]
             init_files:
               - init.sql
