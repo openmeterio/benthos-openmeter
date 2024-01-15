@@ -22,8 +22,8 @@ output:
         continue: true
         output:
           sql_insert:
-            driver: clickhouse
-            dsn: "${CLICKHOUSE_DSN}"
+            driver: "${DATABASE_DRIVER}"
+            dsn: "${DATABASE_DSN}"
             table: messages
             columns:
               - message_id
@@ -39,18 +39,10 @@ output:
                 this.sender,
                 this.recipient,
                 this.message,
-                this.time.ts_format("2006-01-02 15:04:05"),
+                this.time.ts_format(format: "2006-01-02 15:04:05", tz: "UTC"),
               ]
-            init_statement: |
-              CREATE TABLE messages (
-                  message_id UUID,
-                  account_id String,
-                  sender String,
-                  recipient String,
-                  message String,
-                  time DateTime
-              ) ENGINE = MergeTree()
-              PRIMARY KEY (message_id);
+            init_files:
+              - init.sql
 
       - check: '"${SEEDER_LOG:false}" == "true"'
         output:

@@ -1,6 +1,6 @@
-# Clickhouse
+# Database
 
-This example demonstrates reading data from [Clickhouse](https://clickhouse.com/) database, transforming it to [CloudEvents](https://cloudevents.io/) and sending to [OpenMeter](https://openmeter.io/).
+This example demonstrates reading data from a database, transforming it to [CloudEvents](https://cloudevents.io/) and sending to [OpenMeter](https://openmeter.io/).
 
 This is a rather common use case when a system already collects some sort of data or log and you want to send that as usage data to OpenMeter for further processing.
 
@@ -8,6 +8,14 @@ In this example, we will read data from a fake chat service's database (automati
 Benthos will read messages from a message log table and send the calculated usage to OpenMeter.
 
 The example also demonstrates that certain business logic can also be implemented during the transformation (for example: users on the enterprise plan do not get charged for message length).
+
+Databases featured in this example:
+
+- Postgres
+- [Clickhouse](https://clickhouse.com/)
+
+> [!TIP]
+> Check out the supported database drivers in the [Benthos documentation](https://www.benthos.dev/docs/components/inputs/sql_select#drivers).
 
 ## Table of Contents <!-- omit from toc -->
 
@@ -26,7 +34,7 @@ Check out this repository if you want to run the example locally:
 
 ```shell
 git clone https://github.com/openmeterio/benthos-openmeter.git
-cd benthos-openmeter/examples/clickhouse
+cd benthos-openmeter/examples/database
 ```
 
 Create a new `.env` file and add the details of your OpenMeter instance:
@@ -52,7 +60,18 @@ Create the following meters in OpenMeter with the following details:
 
 ## Launch the example
 
-Launch the example (Clickhouse DB, event collector and seeder):
+Decide which database you want to use:
+
+```shell
+export COMPOSE_PROFILES=SELECTED_DATABASE
+```
+
+Available profiles:
+
+- `postgres`
+- `clickhouse`
+
+Launch the example (database, event collector and seeder):
 
 ```shell
 docker compose up -d
