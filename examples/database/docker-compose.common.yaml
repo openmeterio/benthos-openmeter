@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  collector:
+    image: ghcr.io/openmeterio/benthos-openmeter
+    command: benthos -c /etc/benthos/config.yaml
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./config.yaml:/etc/benthos/config.yaml:ro
+
+  seeder:
+    image: ghcr.io/openmeterio/benthos-openmeter
+    command: benthos -c /etc/benthos/config.yaml
+    restart: always
+    volumes:
+      - ./seed/config.yaml:/etc/benthos/config.yaml:ro
