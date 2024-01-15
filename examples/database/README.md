@@ -77,7 +77,6 @@ Launch the example (database, event collector and seeder):
 docker compose up -d
 ```
 
-
 ## Checking events
 
 Read more in the general examples [README](../README.md#Checking-events-in-OpenMeter).

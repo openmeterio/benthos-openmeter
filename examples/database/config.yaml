@@ -1,7 +1,7 @@
 input:
   sql_select:
-    driver: clickhouse
-    dsn: "${CLICKHOUSE_DSN}"
+    driver: "${DATABASE_DRIVER}"
+    dsn: "${DATABASE_DSN}"
     table: messages
     columns:
       - message_id
@@ -9,7 +9,7 @@ input:
       - message
       - time
     where: time >= ?
-    args_mapping: root = [ now().ts_unix() - 30 ]
+    args_mapping: 'root = [ (now().ts_unix() - 30).ts_format(format: "2006-01-02 15:04:05", tz: "UTC") ]'
 
 pipeline:
   processors:
