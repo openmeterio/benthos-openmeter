@@ -25,6 +25,9 @@ type Ci struct {
 	// +private
 	RegistryPassword *Secret
 
+	// +private
+	GitHubToken *Secret
+
 	// Project source directory
 	// This will become useful once pulling from remote becomes available
 	//
@@ -41,6 +44,9 @@ func New(
 
 	// Container registry password (required for pushing images).
 	registryPassword Optional[*Secret],
+
+	// GitHub token.
+	gitHubToken Optional[*Secret],
 ) (*Ci, error) {
 	var source *Directory
 
@@ -55,6 +61,7 @@ func New(
 	return &Ci{
 		RegistryUser:     registryUser.GetOr(""),
 		RegistryPassword: registryPassword.GetOr(nil),
+		GitHubToken:      gitHubToken.GetOr(nil),
 		Source:           source,
 	}, nil
 }
@@ -93,6 +100,19 @@ func (m *Ci) Ci(ctx context.Context) error {
 		_, err := m.Build().HelmChart("0.0.0").Sync(ctx)
 
 		return err
+	})
+
+	group.Go(func() error {
+		files := m.releaseAssets("ci")
+
+		for _, file := range files {
+			_, err := file.Sync(ctx)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
 	})
 
 	return group.Wait()

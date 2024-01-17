@@ -33,6 +33,23 @@ func (m *Ci) Release(
 	})
 
 	group.Go(func() error {
+		releaseAssets := m.releaseAssets(version)
+
+		_, err := dag.Gh(GhOpts{
+			Version: "",
+			Token:   m.GitHubToken,
+			Repo:    "openmeterio/benthos-openmeter",
+		}).Release().Create(version, version, GhReleaseCreateOpts{
+			Files:         releaseAssets,
+			GenerateNotes: true,
+			Latest:        true,
+			VerifyTag:     true,
+		}).Sync(ctx)
+
+		return err
+	})
+
+	group.Go(func() error {
 		username, password := m.RegistryUser, m.RegistryPassword
 
 		if username == "" {
@@ -92,4 +109,11 @@ func (m *Ci) pushImages(ctx context.Context, version string, tags []string) erro
 	}
 
 	return group.Wait()
+}
+
+func (m *Ci) releaseAssets(version string) []*File {
+	binaryArchives := m.Build().binaryArchives(version)
+	checksums := m.Build().checksums(binaryArchives)
+
+	return append(binaryArchives, checksums)
 }
