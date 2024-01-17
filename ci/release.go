@@ -42,7 +42,7 @@ func (m *Ci) Release(
 		releaseAssets := m.releaseAssets(version)
 
 		_, err := dag.Gh(GhOpts{
-			Version: "",
+			Version: ghVersion,
 			Token:   m.GitHubToken,
 			Repo:    "openmeterio/benthos-openmeter",
 		}).Release().Create(version, version, GhReleaseCreateOpts{

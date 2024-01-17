@@ -14,6 +14,8 @@ const (
 
 	helmDocsVersion = "v1.11.3"
 	helmVersion     = "3.13.2"
+
+	ghVersion = "2.42.1"
 )
 
 const imageRepo = "ghcr.io/openmeterio/benthos-openmeter"
