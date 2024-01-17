@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"path"
 	"strings"
 	"time"
 )
@@ -93,6 +95,59 @@ func (m *Build) binary(platform Platform, version string) *File {
 				"-s -w -X main.version=" + version,
 			},
 		})
+}
+
+func (m *Build) binaryArchives(version string) []*File {
+	platforms := []Platform{
+		"linux/amd64",
+		"linux/arm64",
+
+		"darwin/amd64",
+		"darwin/arm64",
+	}
+
+	archives := make([]*File, 0, len(platforms))
+
+	for _, platform := range platforms {
+		archives = append(archives, m.binaryArchive(version, platform))
+	}
+
+	return archives
+}
+
+func (m *Build) binaryArchive(version string, platform Platform) *File {
+	binary := m.binary(platform, version)
+
+	dir := dag.Directory().
+		WithFile("benthos", binary).
+		WithFile("", m.Source.File("README.md")).
+		WithFile("", m.Source.File("LICENSE"))
+
+	archiveName := fmt.Sprintf("benthos_%s.tar.gz", strings.ReplaceAll(string(platform), "/", "_"))
+
+	return dag.Container().
+		From(alpineBaseImage).
+		WithWorkdir("/work").
+		WithMountedDirectory("/work", dir).
+		WithExec([]string{"tar", "-czf", archiveName, "."}).
+		File(path.Join("/work", archiveName))
+}
+
+func (m *Build) checksums(files []*File) *File {
+	return dag.Container().
+		From(alpineBaseImage).
+		WithWorkdir("/work").
+		With(func(c *Container) *Container {
+			dir := dag.Directory()
+
+			for _, file := range files {
+				dir = dir.WithFile("", file)
+			}
+
+			return c.WithMountedDirectory("/work", dir)
+		}).
+		WithExec([]string{"sh", "-c", "sha256sum $(ls) > checksums.txt"}).
+		File("/work/checksums.txt")
 }
 
 func (m *Build) HelmChart(
