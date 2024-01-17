@@ -22,7 +22,7 @@ func (m *Ci) Release(
 	// Release version.
 	version string,
 ) error {
-	group, ctx := errgroup.WithContext(ctx)
+	var group errgroup.Group
 
 	// Container images
 	group.Go(func() error {
