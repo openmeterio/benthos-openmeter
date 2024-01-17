@@ -52,7 +52,7 @@ func New(
 
 	// GitHub token.
 	// +optional
-	gitHubToken *Secret,
+	githubToken *Secret,
 ) (*Ci, error) {
 	var source *Directory
 
@@ -67,7 +67,7 @@ func New(
 	return &Ci{
 		RegistryUser:     registryUser,
 		RegistryPassword: registryPassword,
-		GitHubToken:      gitHubToken,
+		GitHubToken:      githubToken,
 		Source:           source,
 	}, nil
 }
