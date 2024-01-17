@@ -37,31 +37,35 @@ type Ci struct {
 
 func New(
 	// Checkout the repository (at the designated ref) and use it as the source directory instead of the local one.
-	checkout Optional[string],
+	// +optional
+	checkout string,
 
 	// Container registry user (required for pushing images).
-	registryUser Optional[string],
+	// +optional
+	registryUser string,
 
 	// Container registry password (required for pushing images).
-	registryPassword Optional[*Secret],
+	// +optional
+	registryPassword *Secret,
 
 	// GitHub token.
-	gitHubToken Optional[*Secret],
+	// +optional
+	gitHubToken *Secret,
 ) (*Ci, error) {
 	var source *Directory
 
-	if refName, ok := checkout.Get(); ok {
+	if checkout != "" {
 		source = dag.Git("https://github.com/openmeterio/benthos-openmeter.git", GitOpts{
 			KeepGitDir: true,
-		}).Branch(refName).Tree()
+		}).Branch(checkout).Tree()
 	} else {
 		source = projectDir()
 	}
 
 	return &Ci{
-		RegistryUser:     registryUser.GetOr(""),
-		RegistryPassword: registryPassword.GetOr(nil),
-		GitHubToken:      gitHubToken.GetOr(nil),
+		RegistryUser:     registryUser,
+		RegistryPassword: registryPassword,
+		GitHubToken:      gitHubToken,
 		Source:           source,
 	}, nil
 }

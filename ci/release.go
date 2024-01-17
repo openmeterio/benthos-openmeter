@@ -35,6 +35,10 @@ func (m *Ci) Release(
 
 	// Binaries
 	group.Go(func() error {
+		if m.GitHubToken == nil {
+			return errors.New("GitHub token is required to publish a release")
+		}
+
 		releaseAssets := m.releaseAssets(version)
 
 		_, err := dag.Gh(GhOpts{
