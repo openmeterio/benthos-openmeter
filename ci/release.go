@@ -22,8 +22,9 @@ func (m *Ci) Release(
 	// Release version.
 	version string,
 ) error {
-	var group errgroup.Group
+	group, ctx := errgroup.WithContext(ctx)
 
+	// Container images
 	group.Go(func() error {
 		// Disable pushing images for now
 		return nil
@@ -32,6 +33,7 @@ func (m *Ci) Release(
 		return m.pushImages(ctx, version, []string{version})
 	})
 
+	// Binaries
 	group.Go(func() error {
 		releaseAssets := m.releaseAssets(version)
 
@@ -49,6 +51,7 @@ func (m *Ci) Release(
 		return err
 	})
 
+	// Helm chart
 	group.Go(func() error {
 		username, password := m.RegistryUser, m.RegistryPassword
 
