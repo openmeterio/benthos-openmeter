@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-1
-  labels:
+  annotations:
     openmeter.io/subject: customer-1
     data.openmeter.io/customer_group: platinum
 spec:
@@ -16,7 +16,21 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-2
-  labels:
+  annotations:
+    openmeter.io/subject: customer-1
+    data.openmeter.io/customer_group: platinum
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["sh", "-c", "echo The app is running! && sleep 3600"]
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-3
+  annotations:
     openmeter.io/subject: customer-2
     data.openmeter.io/customer_group: gold
 spec:
@@ -29,24 +43,10 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-3
-  labels:
-    openmeter.io/subject: customer-3
-    data.openmeter.io/customer_group: platinum
-spec:
-  containers:
-    - name: busybox
-      image: busybox
-      command: ["sh", "-c", "echo The app is running! && sleep 3600"]
-
----
-apiVersion: v1
-kind: Pod
-metadata:
   name: pod-4
-  labels:
-    openmeter.io/subject: customer-4
-    data.openmeter.io/customer_group: platinum
+  annotations:
+    openmeter.io/subject: customer-3
+    data.openmeter.io/customer_group: gold
 spec:
   containers:
     - name: busybox
@@ -58,8 +58,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-5
-  labels:
-    openmeter.io/subject: customer-5
+  annotations:
+    openmeter.io/subject: customer-3
     data.openmeter.io/customer_group: gold
 spec:
   containers:
@@ -72,9 +72,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-6
-  labels:
-    openmeter.io/subject: customer-6
-    data.openmeter.io/customer_group: platinum
+  annotations:
+    openmeter.io/subject: customer-3
+    data.openmeter.io/customer_group: gold
 spec:
   containers:
     - name: busybox
