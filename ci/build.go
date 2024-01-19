@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"path"
 	"strings"
 	"time"
 )
@@ -118,19 +117,14 @@ func (m *Build) binaryArchives(version string) []*File {
 func (m *Build) binaryArchive(version string, platform Platform) *File {
 	binary := m.binary(platform, version)
 
-	dir := dag.Directory().
-		WithFile("benthos", binary).
-		WithFile("", m.Source.File("README.md")).
-		WithFile("", m.Source.File("LICENSE"))
-
-	archiveName := fmt.Sprintf("benthos_%s.tar.gz", strings.ReplaceAll(string(platform), "/", "_"))
-
-	return dag.Container().
-		From(alpineBaseImage).
-		WithWorkdir("/work").
-		WithMountedDirectory("/work", dir).
-		WithExec([]string{"tar", "-czf", archiveName, "."}).
-		File(path.Join("/work", archiveName))
+	return dag.Arc().ArchiveFiles(
+		fmt.Sprintf("benthos_%s", strings.ReplaceAll(string(platform), "/", "_")),
+		[]*File{
+			binary,
+			m.Source.File("README.md"),
+			m.Source.File("LICENSE"),
+		},
+	).TarGz() // TODO: use zip for windows
 }
 
 func (m *Build) checksums(files []*File) *File {
