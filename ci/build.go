@@ -88,6 +88,7 @@ func (m *Build) binary(platform Platform, version string) *File {
 		WithCgoDisabled().
 		WithSource(m.Source).
 		Build(GoWithSourceBuildOpts{
+			Name:     "benthos",
 			Trimpath: true,
 			RawArgs: []string{
 				"-ldflags",
@@ -115,16 +116,21 @@ func (m *Build) binaryArchives(version string) []*File {
 }
 
 func (m *Build) binaryArchive(version string, platform Platform) *File {
-	binary := m.binary(platform, version)
+	var archiver interface {
+		Archive(name string, source *Directory) *File
+	} = dag.Archivist().TarGz()
 
-	return dag.Arc().ArchiveFiles(
+	if strings.HasPrefix(string(platform), "windows/") {
+		archiver = dag.Archivist().Zip()
+	}
+
+	return archiver.Archive(
 		fmt.Sprintf("benthos_%s", strings.ReplaceAll(string(platform), "/", "_")),
-		[]*File{
-			binary,
-			m.Source.File("README.md"),
-			m.Source.File("LICENSE"),
-		},
-	).TarGz() // TODO: use zip for windows
+		dag.Directory().
+			WithFile("", m.binary(platform, version)).
+			WithFile("", m.Source.File("README.md")).
+			WithFile("", m.Source.File("LICENSE")),
+	)
 }
 
 func (m *Build) checksums(files []*File) *File {
