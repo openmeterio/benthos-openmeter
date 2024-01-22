@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -70,15 +69,11 @@ func (m *Build) containerImage(platform Platform, version string) *Container {
 
 // Build a binary.
 func (m *Build) Binary(
-	ctx context.Context,
-
 	// Target platform in "[os]/[platform]/[version]" format (e.g., "darwin/arm64/v7", "windows/amd64", "linux/arm64").
 	// +optional
 	platform Platform,
-) error {
-	_, err := m.binary(platform, "").Sync(ctx)
-
-	return err
+) *File {
+	return m.binary(platform, "")
 }
 
 func (m *Build) binary(platform Platform, version string) *File {
