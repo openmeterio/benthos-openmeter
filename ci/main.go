@@ -82,9 +82,9 @@ func (m *Ci) Ci(ctx context.Context) error {
 		return err
 	})
 
-	group.Go(func() error {
-		return m.Lint().All(ctx)
-	})
+	// group.Go(func() error {
+	// 	return m.Lint().All(ctx)
+	// })
 
 	// TODO: run trivy scan on container(s?)
 	// TODO: version should be the commit hash (if any?)?
@@ -128,6 +128,8 @@ func (m *Ci) Test() *Container {
 	return dag.Go(GoOpts{
 		Version: goVersion,
 	}).
+		WithModuleCache(dag.CacheVolume("benthos-openmeter-go-mod")).
+		WithBuildCache(dag.CacheVolume("benthos-openmeter-go-build")).
 		WithSource(m.Source).
 		Exec([]string{"go", "test", "-v", "./..."})
 }

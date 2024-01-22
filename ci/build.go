@@ -84,6 +84,8 @@ func (m *Build) binary(platform Platform, version string) *File {
 	return dag.Go(GoOpts{
 		Version: goVersion,
 	}).
+		WithModuleCache(dag.CacheVolume("benthos-openmeter-go-mod")).
+		WithBuildCache(dag.CacheVolume("benthos-openmeter-go-build")).
 		WithPlatform(string(platform)).
 		WithCgoDisabled().
 		WithSource(m.Source).

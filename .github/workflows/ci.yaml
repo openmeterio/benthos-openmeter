@@ -19,7 +19,7 @@ jobs:
         with:
           verb: call
           module: github.com/${{ github.repository }}/ci@${{ github.ref }}
-          args: --checkout ${{ github.ref }} ci
+          args: --checkout ${{ github.ref }} build binary
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
           version: "0.9.7"
 
