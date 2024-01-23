@@ -120,7 +120,7 @@ func (m *Ci) pushImages(ctx context.Context, version string, tags []string) erro
 
 func (m *Ci) releaseAssets(version string) []*File {
 	binaryArchives := m.Build().binaryArchives(version)
-	checksums := m.Build().checksums(binaryArchives)
+	checksums := dag.Checksum().Sha256().Calculate(binaryArchives)
 
 	return append(binaryArchives, checksums)
 }

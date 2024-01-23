@@ -133,23 +133,6 @@ func (m *Build) binaryArchive(version string, platform Platform) *File {
 	)
 }
 
-func (m *Build) checksums(files []*File) *File {
-	return dag.Container().
-		From(alpineBaseImage).
-		WithWorkdir("/work").
-		With(func(c *Container) *Container {
-			dir := dag.Directory()
-
-			for _, file := range files {
-				dir = dir.WithFile("", file)
-			}
-
-			return c.WithMountedDirectory("/work", dir)
-		}).
-		WithExec([]string{"sh", "-c", "sha256sum $(ls) > checksums.txt"}).
-		File("/work/checksums.txt")
-}
-
 func (m *Build) HelmChart(
 	// Release version.
 	// +optional

@@ -9,7 +9,7 @@
   ],
   "dependencies": [
     "github.com/sagikazarmark/daggerverse/archivist@493a0d97d9468d8dee23dec1f805268e940c386d",
-    "github.com/sagikazarmark/daggerverse/checksum@493a0d97d9468d8dee23dec1f805268e940c386d",
+    "github.com/sagikazarmark/daggerverse/checksum@5b3e18c117fb761d645d04c69347b0e1ced73e77",
     "github.com/sagikazarmark/daggerverse/gh@ef6b5bf932277ffc4b7e1ea9fd9a1c26a2780da3",
     "github.com/sagikazarmark/daggerverse/go@493a0d97d9468d8dee23dec1f805268e940c386d",
     "github.com/sagikazarmark/daggerverse/golangci-lint@fd0f3da52f511b9188a6f5bd44b193e3d614f0e2",
