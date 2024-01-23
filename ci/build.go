@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"path"
 	"strings"
 	"time"
 )
@@ -89,6 +88,7 @@ func (m *Build) binary(platform Platform, version string) *File {
 		WithCgoDisabled().
 		WithSource(m.Source).
 		Build(GoWithSourceBuildOpts{
+			Name:     "benthos",
 			Trimpath: true,
 			RawArgs: []string{
 				"-ldflags",
@@ -116,38 +116,21 @@ func (m *Build) binaryArchives(version string) []*File {
 }
 
 func (m *Build) binaryArchive(version string, platform Platform) *File {
-	binary := m.binary(platform, version)
+	var archiver interface {
+		Archive(name string, source *Directory) *File
+	} = dag.Archivist().TarGz()
 
-	dir := dag.Directory().
-		WithFile("benthos", binary).
-		WithFile("", m.Source.File("README.md")).
-		WithFile("", m.Source.File("LICENSE"))
+	if strings.HasPrefix(string(platform), "windows/") {
+		archiver = dag.Archivist().Zip()
+	}
 
-	archiveName := fmt.Sprintf("benthos_%s.tar.gz", strings.ReplaceAll(string(platform), "/", "_"))
-
-	return dag.Container().
-		From(alpineBaseImage).
-		WithWorkdir("/work").
-		WithMountedDirectory("/work", dir).
-		WithExec([]string{"tar", "-czf", archiveName, "."}).
-		File(path.Join("/work", archiveName))
-}
-
-func (m *Build) checksums(files []*File) *File {
-	return dag.Container().
-		From(alpineBaseImage).
-		WithWorkdir("/work").
-		With(func(c *Container) *Container {
-			dir := dag.Directory()
-
-			for _, file := range files {
-				dir = dir.WithFile("", file)
-			}
-
-			return c.WithMountedDirectory("/work", dir)
-		}).
-		WithExec([]string{"sh", "-c", "sha256sum $(ls) > checksums.txt"}).
-		File("/work/checksums.txt")
+	return archiver.Archive(
+		fmt.Sprintf("benthos_%s", strings.ReplaceAll(string(platform), "/", "_")),
+		dag.Directory().
+			WithFile("", m.binary(platform, version)).
+			WithFile("", m.Source.File("README.md")).
+			WithFile("", m.Source.File("LICENSE")),
+	)
 }
 
 func (m *Build) HelmChart(
