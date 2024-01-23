@@ -49,8 +49,9 @@ jobs:
         run: nix develop --impure .#ci
 
       - name: Release
-        run: nix develop --impure .#ci -c dagger call --registry-user ${{ github.actor }} --registry-password ${{ github.token }} --github-token ${{ github.token }} release --version ${{ github.ref_name }}
+        run: nix develop --impure .#ci -c dagger call --registry-user ${{ github.actor }} --registry-password GITHUB_TOKEN --github-token GITHUB_TOKEN release --version ${{ github.ref_name }}
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
 
       - name: Stop Engine
