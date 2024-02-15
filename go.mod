@@ -6,8 +6,8 @@ require (
 	github.com/benthosdev/benthos/v4 v4.24.0
 	github.com/openmeterio/openmeter v1.0.0-beta.38
 	github.com/samber/lo v1.39.0
-	k8s.io/apimachinery v0.29.1
-	k8s.io/client-go v0.29.1
+	k8s.io/apimachinery v0.29.2
+	k8s.io/client-go v0.29.2
 	sigs.k8s.io/controller-runtime v0.17.0
 )
 
